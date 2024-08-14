@@ -1,4 +1,4 @@
-from .Algorithms.interfaces.RegisterUser import RegisterUser
+from .Controller.interfaces.RegisterUser import RegisterUser
 
 class Register:
 
