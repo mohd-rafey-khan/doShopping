@@ -1,4 +1,4 @@
-from .interfaces.RegisterUser import RegisterUser
+from ..interfaces.RegisterUser import RegisterUser
 
 class OauthRegisterUser(RegisterUser):
 
