@@ -191,8 +191,7 @@ AUTHENTICATION_BACKENDS = (
 
 
 # Google OAuth2 credentials
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY =''
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''
+
 
 # Redirect URLs
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/profile'  # Where to redirect after login
