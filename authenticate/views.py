@@ -9,6 +9,11 @@ from .Auth.Login import Login
 from .Auth.Controller.login.JwtLoginUser import JwtLoginUser
 from django.contrib.auth import authenticate, login
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import status
+
+from django.contrib.auth.models import User
+from rest_framework.serializers import ModelSerializer
+
 # Create your views here.
 
 @api_view(['GET'])
@@ -22,7 +27,7 @@ def RegisterUser(request):
     data = request.data
     userRegister = Register()
     userRegister.register(JwtRegisterUser(data))
-    userRegister.register(OauthRegisterUser())
+    # userRegister.register(OauthRegisterUser())
     return Response({"message": "User is registered"})
 
 
@@ -35,7 +40,6 @@ def LoginUser(request):
     user = user_login.login(JwtLoginUser(data))
 
     reseponse = ""
-
     if user is not None:
         if request:
             # Log the user in using the request object
@@ -47,9 +51,11 @@ def LoginUser(request):
 
             # Return the token in the response
             reseponse =  {
-                'access': access_token,
+                'token': access_token,
                 'refresh': str(refresh)
             }
+
+            return Response(reseponse)
         else:
             reseponse =  {
                 'message': "Request object is missing."
@@ -59,4 +65,16 @@ def LoginUser(request):
             'message': "Invalid Credentials"
         }
 
-    return Response(reseponse)
+    return Response(reseponse,status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def profile(request):
+    user = request.user
+
+    # serializer = UserSerializer(user)
+    
+    print(request)
+    # Check if the user is authenticated
+    

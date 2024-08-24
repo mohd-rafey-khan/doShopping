@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'authenticate',
     'rest_framework',
     'rest_framework_simplejwt',
+    'corsheaders',
+    'social_django'
 ]
 
 MIDDLEWARE = [
@@ -54,6 +56,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',  # Add this
 ]
 
 ROOT_URLCONF = 'doShopping.urls'
@@ -69,6 +74,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',  # Add this
+                'social_django.context_processors.login_redirect',  # Add this
             ],
         },
     },
@@ -155,3 +162,38 @@ SIMPLE_JWT = {
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',
 }
+
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
+
+CORS_ALLOWED_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS',
+]
+
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'authorization',
+    'x-requested-with',
+]
+
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',  # Add the Google OAuth backend
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+
+# Google OAuth2 credentials
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '909434304555-krjg79ls4jd7jtb08bgu2i03ok2ul588.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
+# Redirect URLs
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/profile'  # Where to redirect after login
+SOCIAL_AUTH_LOGIN_URL = '/'  # Where to redirect for login
