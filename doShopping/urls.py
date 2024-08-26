@@ -20,5 +20,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include("authenticate.urls")),
+    path('product/admin/',include("AdminProduct.urls")),
     path('auth/', include('social_django.urls', namespace='social')),  # Add this line
 ]
